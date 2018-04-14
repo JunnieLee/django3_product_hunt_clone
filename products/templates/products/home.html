@@ -2,6 +2,27 @@
 
 {% block content %} <!--여기 안에 들어갈 내용이 바로 base.html의 block content에 넘겨질 내용!-->
 
-Home!
+	{% for product in products.all %}
+	<div class="row pt-3">
+		<div class="col-2" onclick="window.location='{% url 'detail' product.id %}';" style="cursor: pointer">
+			<img src="{{ product.icon.url }}" class="img-fluid" />
+		</div>
+		<div class="col-6" onclick="window.location='{% url 'detail' product.id %}';" style="cursor: pointer">
+			<h1>{{ product.title }}</h1>
+			<p>{{ product.summary }}</p>
+		</div>
+		<div class="col-4">
+			<form method="POST" action="{% url 'upvote_at_home' product.id %}">
+			{% csrf_token %}
+				<button class="btn btn-primary btn-lg btn-block">
+				<span class="oi oi-thumb-up"></span>
+				<input type="submit" value="Upvote {{ product.votes_total }}" 
+				style="color:white;background-color:transparent;border: 0;cursor: pointer;">
+				</button>
+			</form>
+		</div>	
+	</div>
+	<hr />	
+	{% endfor %}
 
 {% endblock %}

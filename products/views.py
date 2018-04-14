@@ -6,11 +6,11 @@ from django.utils import timezone
 
 # Create your views here.
 def home(request):
-	return render(request, 'products/home.html')
+	products = Product.objects # Now this id gonna go and get all the Products objects	
+	return render(request, 'products/home.html', {'products':products})
 
 
-
-@login_required  # only the logged in can access this create page
+@login_required(login_url="/accounts/login")  # only the logged in can access this create page
 def create(request):
 	if request.method == 'POST':
 		if request.POST['title'] and request.POST['body'] and request.POST['url'] and request.FILES['icon'] and request.FILES['image']:
@@ -42,10 +42,19 @@ def detail(request, product_id):
 
 
 
-@login_required # you can only vote when you're logged in
+@login_required(login_url="/accounts/login") # you can only vote when you're logged in
 def upvote(request, product_id):
 	if request.method == 'POST':
 		product = get_object_or_404(Product, pk=product_id)
 		product.votes_total += 1
 		product.save()
-		return redirect(to='detail', product_id=product.id)		
+		return redirect(to='detail', product_id=product.id)
+
+
+@login_required # you can only vote when you're logged in
+def upvote_at_home(request, product_id):
+	if request.method == 'POST':
+		product = get_object_or_404(Product, pk=product_id)
+		product.votes_total += 1
+		product.save()
+		return redirect(to='home')	
