@@ -2,27 +2,35 @@
 
 {% block content %} <!--여기 안에 들어갈 내용이 바로 base.html의 block content에 넘겨질 내용!-->
 
-{% if error %}
-	{{ error }}
-	<br /><br />
-{% endif %}
+	{% if error %}
+		{{ error }}
+		<br /><br />
+	{% endif %}
 
-	<h1>Sign up!</h1>
-	<br />
+	{% load staticfiles %}
+	<body class="text-center">
 
-	<form method="POST" action="{% url 'signup' %}">
-	{% csrf_token %} <!-- this code protects our website from attacks-->
+		<h1>Sign up!</h1>
+		<br /><br />
+		<img class="mb-4" src="{% static 'logo.png' %}" alt="" width="72" height="72">
+		<br /><br />
+		<hr />
 
-		Username:<br />
-		<input type="text" name="username"/><br />
-		<br />
-		Password:<br />
-		<input type="password" name="password1"/><br />
-		<br />		
-		Confirm Password:<br />
-		<input type="password" name="password2"/><br />
-		<br />
-		<input class="btn btn-primary" type="submit" value="Sign up!" />	
-	</form>
+		<form method="POST" action="{% url 'signup' %}">
+		{% csrf_token %} <!-- this code protects our website from attacks-->
+
+			<label>Username:</label><br />
+			<input type="text" name="username"/><br />
+			<br />
+			<label>Password:</label><br />
+			<input type="password" name="password1"/><br />
+			<br />		
+			<label>Confirm Password:</label><br />
+			<input type="password" name="password2"/><br />
+			<br />
+			<input class="btn btn-primary" type="submit" value="Sign up!" />	
+		</form>
+
+	</body>
 
 {% endblock %}

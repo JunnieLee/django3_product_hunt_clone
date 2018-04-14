@@ -20,7 +20,7 @@
     <header>
 	    <nav class="navbar navbar-expand-lg navbar-light bg-light">
 	      <div class="container">
-	        <a class="navbar-brand" href="#">
+	        <a class="navbar-brand" href="{% url 'home' %}">
 		        <img src="{% static 'logo.png' %}" class="d-inline-block alighn-top" height=30 width=30 />
 		        <strong> Product Hunt </strong>
 	        </a>
@@ -29,8 +29,16 @@
 	        </button>
 	        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 	          <div class="navbar-nav ml-auto">
-	            <a class="nav-item nav-link" href="">Sign up</a>
-	            <a class="nav-item nav-link" href="">Log in</a>
+	          	{% if user.is_authenticated %} <!-- if logged in ?-->
+		            <form id="logout" method="POST" action="{% url 'logout' %}"> <!--브라우저에서 자동으로 실행 안되도록 POST로!-->
+		            	{% csrf_token %}
+		            	<input type="submit" value="Log out" class="nav-item nav-link"
+		            	 style="background-color:transparent;border: 0;cursor: pointer;"> 
+		            </form>	
+	            {% else %} <!-- if not logged in ?-->
+		            <a class="nav-item nav-link" href="{% url 'signup' %}">Sign up</a>
+		            <a class="nav-item nav-link" href="{% url 'login' %}">Log in</a>
+	            {% endif %}
 	          </div>
 	        </div>
 	   	  </div> 

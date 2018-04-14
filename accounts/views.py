@@ -24,8 +24,18 @@ def signup(request):
 		return render(request, 'accounts/signup.html')
 
 def login(request):
-	return render(request, 'accounts/login.html')
+	if request.method == 'POST':
+		user = auth.authenticate(username=request.POST['username'], password=request.POST['password'])
+		# auth.authenticate을 사용해서 해당 유저 정보가 유효한지 아닌지 확인할 단서를 제공할 수 있음!
+		if user is not None: # 해당 user 정보가 유효하다면
+			auth.login(request, user) # 로그인 시켜라!
+			return redirect('home')	# 로그인 시킨 상태로 home페이지로 redirect시켜라!		
+		else: # 해당 user정보가 유효하지 않다면 -> 에러를 띄워라 	
+			return render(request, 'accounts/login.html', {'error': 'Username or password is incorrect.'})
+	else: 
+		return render(request, 'accounts/login.html')		
 
 def logout(request):
-	# TODO: need to route to homepage
-	return render(request, 'home.html')		
+	if request.method == 'POST':
+		auth.logout(request)
+		return redirect('home')		
