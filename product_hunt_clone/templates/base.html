@@ -12,6 +12,8 @@
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!--reference code for open-iconic-->
+    <link rel="stylesheet" href="{% static 'open-iconic/open-iconic-master/font/css/open-iconic-bootstrap.css' %}">
 
   </head>
 
@@ -30,6 +32,7 @@
 	        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 	          <div class="navbar-nav ml-auto">
 	          	{% if user.is_authenticated %} <!-- if logged in ?-->
+	          		<a class="nav-item nav-link" href="{% url 'create' %}"><span class="oi oi-plus"></span></a>
 		            <form id="logout" method="POST" action="{% url 'logout' %}"> <!--브라우저에서 자동으로 실행 안되도록 POST로!-->
 		            	{% csrf_token %}
 		            	<input type="submit" value="Log out" class="nav-item nav-link"
